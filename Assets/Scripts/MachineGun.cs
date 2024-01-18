@@ -5,13 +5,12 @@ using Unity.Mathematics;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class FireGun : MonoBehaviour
+public class MachineGun : MonoBehaviour
 {
     public Mesh m_mesh;
     public Material m_material;
     public int bulletCount;
     public float speed = 10;
-    public float changeTime = 1;
     private const int kGpuItemSize = (3 * 2 + 1) * 16; //  每个实例字节数 ( 2 * 4x3 matrices + 1 color per item )
 
     private BRG_Container m_brgContainer;
@@ -56,7 +55,7 @@ public class FireGun : MonoBehaviour
             item.z = z;
             item.cloudY = 100;
             item.color = new Vector4(Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f), 1.0f);
-            item.mat = float3x3.Scale(0.2f, 0.2f, 1);
+            item.mat = float3x3.Scale(0.35f, 0.35f, 1);
             m_backgroundItems[index] = item;
             index++;
         }
@@ -111,7 +110,7 @@ public class FireGun : MonoBehaviour
     }
 
     [BurstCompile]
-    JobHandle UpdatePositions(bool change, float dt, float speed, JobHandle jobFence)
+    JobHandle UpdatePositions(float dt, float speed, JobHandle jobFence)
     {
         int totalGpuBufferSize;
         int alignedWindowSize;
@@ -124,7 +123,6 @@ public class FireGun : MonoBehaviour
             _maxInstancePerWindow = alignedWindowSize / kGpuItemSize,
             _windowSizeInFloat4 = alignedWindowSize / 16,
             _dt = dt,
-            _change = change,
             _speed = speed
         };
         jobFence = myJob.ScheduleParallel(m_backgroundItems.Length, 4, jobFence); // 4 slices per job
@@ -137,15 +135,9 @@ public class FireGun : MonoBehaviour
     void Update()
     {
         JobHandle jobFence = new JobHandle();
-        bool change = false;
-        if (now - lastTime > changeTime)
-        {
-            lastTime = now;
-            change = true;
-        }
 
         now = Time.time;
-        m_updateJobFence = UpdatePositions(change, Time.deltaTime, speed, jobFence);
+        m_updateJobFence = UpdatePositions(Time.deltaTime, speed, jobFence);
     }
 
     private void LateUpdate()

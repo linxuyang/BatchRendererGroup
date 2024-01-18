@@ -389,6 +389,7 @@ GameObject:
   - component: {fileID: 1232765088}
   - component: {fileID: 1232765087}
   - component: {fileID: 1232765089}
+  - component: {fileID: 1232765090}
   m_Layer: 0
   m_Name: GameObject
   m_TagString: Untagged
@@ -432,7 +433,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1232765086}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6caab383dd4254f43a97922c3242f247, type: 3}
   m_Name: 
@@ -444,6 +445,23 @@ MonoBehaviour:
   h: 20
   gap: 1.2
   speed: 10
+  changeTime: 1
+--- !u!114 &1232765090
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1232765086}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41b29db640a3484782ad59f5823dbb78, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  m_material: {fileID: 2100000, guid: 49a93f36c3c21d64c8287224384667f6, type: 2}
+  bulletCount: 3000
+  speed: 100
   changeTime: 1
 --- !u!1 &1391375706
 GameObject:
